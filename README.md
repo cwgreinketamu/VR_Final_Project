@@ -1,3 +1,3 @@
 # VR_Final_Project
-Repo for VIST 477/CSCE 446 Final Project
+Repo for VIST 477/CSCE 446 Final Project  
 Using Unity Version 6000.3.5f2
