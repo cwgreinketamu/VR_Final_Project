@@ -1514,7 +1514,7 @@ GameObject:
   - component: {fileID: 1085604184882570502}
   - component: {fileID: 6191722778643607591}
   m_Layer: 2
-  m_Name: Custon XR Origin
+  m_Name: Custom XR Origin
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
