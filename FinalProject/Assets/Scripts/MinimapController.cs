@@ -10,7 +10,7 @@ public class MinimapController : MonoBehaviour
     public Vector3 mapCenterWorldPos = new Vector3(0, 0, 25);
     public float mapWorldSizeX = 24f;
     public float mapWorldSizeZ = 24f;
-    public int textureSize = 256;
+    public int textureSize = 128;
     public float raycastHeight = 8f;
 
     private Texture2D mapTexture;
@@ -70,13 +70,23 @@ public class MinimapController : MonoBehaviour
         mapTexture = new Texture2D(textureSize, textureSize, TextureFormat.RGBA32, false);
         mapTexture.filterMode = FilterMode.Bilinear;
 
-        Color floorColor = new Color(0.9f, 0.86f, 0.78f);
-        Color wallColor = new Color(0.22f, 0.18f, 0.15f);
-        Color bgColor = new Color(0.1f, 0.1f, 0.15f);
+        Color floorColor = new Color(0.92f, 0.88f, 0.8f);
+        Color wallColor = new Color(0.18f, 0.15f, 0.12f);
+        Color bgColor = new Color(0.08f, 0.08f, 0.12f);
 
         Color[] pixels = new Color[textureSize * textureSize];
         for (int i = 0; i < pixels.Length; i++)
             pixels[i] = bgColor;
+
+        float probeY = 1.0f;
+        float probeRadius = 0.45f;
+        Vector3[] dirs = {
+            Vector3.forward, Vector3.back, Vector3.left, Vector3.right,
+            (Vector3.forward + Vector3.left).normalized,
+            (Vector3.forward + Vector3.right).normalized,
+            (Vector3.back + Vector3.left).normalized,
+            (Vector3.back + Vector3.right).normalized
+        };
 
         for (int px = 0; px < textureSize; px++)
         {
@@ -84,16 +94,23 @@ public class MinimapController : MonoBehaviour
             {
                 float worldX = mapCenterWorldPos.x + ((float)px / textureSize - 0.5f) * mapWorldSizeX;
                 float worldZ = mapCenterWorldPos.z + ((float)py / textureSize - 0.5f) * mapWorldSizeZ;
-                Vector3 origin = new Vector3(worldX, raycastHeight, worldZ);
+                Vector3 origin = new Vector3(worldX, probeY, worldZ);
 
-                if (Physics.Raycast(origin, Vector3.down, out RaycastHit hit, raycastHeight + 1f))
+                bool hitFloor = Physics.Raycast(origin, Vector3.down, probeY + 0.5f);
+                if (!hitFloor)
+                    continue;
+
+                bool nearWall = false;
+                foreach (Vector3 dir in dirs)
                 {
-                    float hitY = hit.point.y;
-                    if (hitY > 0.5f)
-                        pixels[py * textureSize + px] = wallColor;
-                    else
-                        pixels[py * textureSize + px] = floorColor;
+                    if (Physics.Raycast(origin, dir, probeRadius))
+                    {
+                        nearWall = true;
+                        break;
+                    }
                 }
+
+                pixels[py * textureSize + px] = nearWall ? wallColor : floorColor;
             }
         }
 
