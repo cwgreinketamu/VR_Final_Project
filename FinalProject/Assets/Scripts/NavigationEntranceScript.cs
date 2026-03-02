@@ -9,6 +9,7 @@ public class NavigationEntranceScript : MonoBehaviour
     {
         paintingManager = GameObject.Find("PaintingProgressManager");
         managerScript = paintingManager.GetComponent<PaintingProgressManager>();
+        managerScript.EnableUI(false);
     }
 
     // Update is called once per frame

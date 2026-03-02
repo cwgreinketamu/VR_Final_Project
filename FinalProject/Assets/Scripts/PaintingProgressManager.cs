@@ -1,3 +1,4 @@
+using System.Collections;
 using TMPro;
 using UnityEngine;
 
@@ -6,6 +7,8 @@ public class PaintingProgressManager : MonoBehaviour
     public TMP_Text uiText;
     public TMP_Text gameOverText;
     public GameObject gameOverBackground;
+    public GameObject miniMap;
+    public GameObject miniMapLabel;
     public AudioClip winSound;
     public AudioClip loseSound;
 
@@ -16,6 +19,7 @@ public class PaintingProgressManager : MonoBehaviour
 
     void Start()
     {
+        /* this block is gonna be real problematic if we have other ui elements in the future - finding uiText manually in editor instead
         if (uiText == null)
         {
             Transform canvas = transform.Find("Canvas");
@@ -28,6 +32,7 @@ public class PaintingProgressManager : MonoBehaviour
             if (uiText == null)
                 uiText = GetComponentInChildren<TMP_Text>();
         }
+        */
 
         GameObject[] viewZones = GameObject.FindGameObjectsWithTag("ViewZone");
         max = viewZones.Length;
@@ -58,6 +63,8 @@ public class PaintingProgressManager : MonoBehaviour
     public void EnableUI(bool enable)
     {
         uiText.enabled = enable;
+        miniMap.SetActive(enable);
+        miniMapLabel.SetActive(enable);
     }
 
     public void WinGame()
@@ -69,12 +76,11 @@ public class PaintingProgressManager : MonoBehaviour
 
         if (gameOverText != null)
         {
-            gameOverText.enabled = true;
             gameOverText.text = "You Win!\nAll Paintings Found!";
             gameOverText.color = new Color(0.2f, 1f, 0.2f);
         }
         if (gameOverBackground != null)
-            gameOverBackground.SetActive(true);
+            StartCoroutine(ShowWinScreen());
 
         if (winSound != null)
             audioSource.PlayOneShot(winSound);
@@ -84,6 +90,14 @@ public class PaintingProgressManager : MonoBehaviour
             timer.StopTimer();
     }
 
+    IEnumerator ShowWinScreen()
+    {
+        gameOverText.enabled = true;
+        gameOverBackground.SetActive(true);
+        yield return new WaitForSeconds(5);
+        gameOverBackground.SetActive(false);
+        gameOverText.enabled = false;
+    }
     public void LoseGame()
     {
         if (gameEnded) return;

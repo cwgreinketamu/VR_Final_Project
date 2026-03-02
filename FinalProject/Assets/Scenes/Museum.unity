@@ -280,7 +280,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &4605755
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14268,9 +14268,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b57c20e141f68ee41b87ceaac3d740e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PaintingProgressManager
-  uiText: {fileID: 0}
+  uiText: {fileID: 129620361}
   gameOverText: {fileID: 1116943598}
   gameOverBackground: {fileID: 143549283}
+  miniMap: {fileID: 605138309}
+  miniMapLabel: {fileID: 1608056980}
   winSound: {fileID: 0}
   loseSound: {fileID: 0}
 --- !u!4 &382943265
@@ -26130,6 +26132,10 @@ PrefabInstance:
       propertyPath: m_RightHandTurnInput.m_InputActionReference
       value: 
       objectReference: {fileID: 269090099}
+    - target: {fileID: 3258628824361535101, guid: e04d2970007b92f459845c34a2f7686b, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4836848030348622110, guid: e04d2970007b92f459845c34a2f7686b, type: 3}
       propertyPath: m_Name
       value: Custom XR Origin
@@ -26158,6 +26164,10 @@ PrefabInstance:
       propertyPath: m_RightHandTurnInput.m_InputActionReference
       value: 
       objectReference: {fileID: 1627484020}
+    - target: {fileID: 6682281039612622896, guid: e04d2970007b92f459845c34a2f7686b, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7636326244089192034, guid: e04d2970007b92f459845c34a2f7686b, type: 3}
       propertyPath: m_Radius
       value: 0.3
@@ -29007,7 +29017,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &734647751
 RectTransform:
   m_ObjectHideFlags: 0
@@ -60252,10 +60262,10 @@ RectTransform:
   m_Children:
   - {fileID: 129620360}
   - {fileID: 734647751}
-  - {fileID: 1116943597}
   - {fileID: 377694867}
   - {fileID: 605138310}
   - {fileID: 143549284}
+  - {fileID: 1116943597}
   - {fileID: 1608056981}
   m_Father: {fileID: 382943265}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
