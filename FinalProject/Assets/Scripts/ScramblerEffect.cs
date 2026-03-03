@@ -9,12 +9,16 @@ public class ScramblerEffect : MonoBehaviour
     public ContinuousMoveProvider moveProvider;
     public GameObject minimapUI;
     public TMP_Text scrambleIndicatorText;
+    public GameObject paintingManager;
+    private PaintingProgressManager managerScript;
 
     private float originalMoveSpeed;
     private bool isActive = false;
 
     void Start()
     {
+        paintingManager = GameObject.Find("PaintingProgressManager");
+        managerScript = paintingManager.GetComponent<PaintingProgressManager>();
         if (scrambleIndicatorText != null)
             scrambleIndicatorText.enabled = false;
     }
@@ -64,7 +68,7 @@ public class ScramblerEffect : MonoBehaviour
         if (moveProvider != null)
             moveProvider.moveSpeed = originalMoveSpeed;
 
-        if (minimapUI != null)
+        if (minimapUI != null && managerScript.IsUIEnabled)
             minimapUI.SetActive(true);
 
         if (scrambleIndicatorText != null)
