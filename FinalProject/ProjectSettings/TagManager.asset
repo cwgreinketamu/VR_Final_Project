@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 3
   tags:
   - ViewZone
+  - statue1
+  - statue2
   layers:
   - Default
   - TransparentFX
