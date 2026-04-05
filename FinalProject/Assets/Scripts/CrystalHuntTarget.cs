@@ -1,0 +1,57 @@
+using UnityEngine;
+
+public class CrystalHuntTarget : MonoBehaviour
+{
+    public AudioSource collectSound;
+    public Light glowLight;
+    public bool isCollected = false;
+
+    private float bobSpeed = 1.5f;
+    private float bobHeight = 0.15f;
+    private Vector3 startPos;
+
+    void Start()
+    {
+        startPos = transform.position;
+        if (glowLight == null)
+            glowLight = GetComponentInChildren<Light>();
+    }
+
+    void Update()
+    {
+        if (isCollected) return;
+        float newY = startPos.y + Mathf.Sin(Time.time * bobSpeed) * bobHeight;
+        transform.position = new Vector3(startPos.x, newY, startPos.z);
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (isCollected || !other.CompareTag("Player")) return;
+
+        isCollected = true;
+
+        HapticManager hm = HapticManager.Instance;
+        if (hm != null)
+        {
+            hm.SendConfirmation();
+            hm.SendImpulse(0.5f, 0.15f);
+        }
+
+        if (collectSound != null)
+            collectSound.Play();
+
+        if (glowLight != null)
+            glowLight.intensity *= 3f;
+
+        GrottoGameManager gm = FindFirstObjectByType<GrottoGameManager>();
+        if (gm != null)
+            gm.OnCrystalCollected();
+
+        Invoke(nameof(Deactivate), 1f);
+    }
+
+    void Deactivate()
+    {
+        gameObject.SetActive(false);
+    }
+}
