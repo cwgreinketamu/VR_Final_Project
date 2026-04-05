@@ -30,6 +30,10 @@ public class ScramblerCollectible : MonoBehaviour
         if (effect != null)
             effect.ActivateScramble();
 
+        HapticManager hm = HapticManager.Instance;
+        if (hm != null)
+            hm.SendWarning();
+
         AudioSource audioSource = GetComponent<AudioSource>();
         if (audioSource != null && pickupSound != null)
         {

@@ -28,6 +28,11 @@ public class PaintingViewZoneScript : MonoBehaviour
             GetComponent<AudioSource>().Play();
             GetComponent<Collider>().enabled = false;
             GetComponent<MeshRenderer>().enabled = false;
+
+            HapticManager hm = HapticManager.Instance;
+            if (hm != null)
+                hm.SendConfirmation();
+
             StartCoroutine(Death());
         }
     }

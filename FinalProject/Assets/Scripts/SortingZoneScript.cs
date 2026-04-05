@@ -21,10 +21,14 @@ public class SortingZoneScript : MonoBehaviour
         if (other.CompareTag(myTag))
         {
             sortingManagerScript.ProcessObject(true);
+            HapticManager hm = HapticManager.Instance;
+            if (hm != null) hm.SendConfirmation();
         }
         else if (other.CompareTag(otherTag))
         {
             sortingManagerScript.ProcessObject(false);
+            HapticManager hm = HapticManager.Instance;
+            if (hm != null) hm.SendWarning();
         }
     }
 }
