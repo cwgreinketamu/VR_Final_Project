@@ -22465,7 +22465,7 @@ Light:
   serializedVersion: 12
   m_Type: 1
   m_Color: {r: 1, g: 0.93, b: 0.85, a: 1}
-  m_Intensity: 2.5
+  m_Intensity: 0.3
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -61173,8 +61173,8 @@ Transform:
   m_GameObject: {fileID: 1252073364}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -4.5, y: 2.5, z: 7}
-  m_LocalScale: {x: 5, y: 5, z: 0.3}
+  m_LocalPosition: {x: -4.25, y: 2.5, z: 7}
+  m_LocalScale: {x: 5.5, y: 5, z: 0.3}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2037279886}
@@ -62577,7 +62577,7 @@ Transform:
   m_GameObject: {fileID: 1280625583}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 4.5, z: 0}
+  m_LocalPosition: {x: 0, y: 4.5, z: -3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -62622,9 +62622,9 @@ Light:
   m_Enabled: 1
   serializedVersion: 12
   m_Type: 2
-  m_Color: {r: 0.2, g: 0.3, b: 0.4, a: 1}
-  m_Intensity: 0.8
-  m_Range: 18
+  m_Color: {r: 0.3, g: 0.5, b: 0.7, a: 1}
+  m_Intensity: 0.6
+  m_Range: 12
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
   m_CookieSize2D: {x: 0.5, y: 0.5}
@@ -65756,7 +65756,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1343736978}
-  m_LocalRotation: {x: 0, y: 1, z: 0, w: -0.00000004371139}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -9}
   m_LocalScale: {x: 0.003, y: 0.003, z: 0.003}
   m_ConstrainProportionsScale: 0
@@ -78246,8 +78246,8 @@ GameObject:
   - component: {fileID: 1621222444}
   - component: {fileID: 1621222443}
   - component: {fileID: 1621222442}
-  - component: {fileID: 1621222446}
   - component: {fileID: 1621222445}
+  - component: {fileID: 1621222446}
   m_Layer: 0
   m_Name: GrottoFloor
   m_TagString: Untagged
@@ -91775,8 +91775,8 @@ Transform:
   m_GameObject: {fileID: 1932294948}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 4.5, y: 2.5, z: 7}
-  m_LocalScale: {x: 5, y: 5, z: 0.3}
+  m_LocalPosition: {x: 4.25, y: 2.5, z: 7}
+  m_LocalScale: {x: 5.5, y: 5, z: 0.3}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2037279886}
