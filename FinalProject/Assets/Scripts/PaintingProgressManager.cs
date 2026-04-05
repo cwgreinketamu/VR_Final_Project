@@ -37,8 +37,11 @@ public class PaintingProgressManager : MonoBehaviour
 
         GameObject[] viewZones = GameObject.FindGameObjectsWithTag("ViewZone");
         max = viewZones.Length;
-        uiText.text = "Paintings Found: " + count + " / " + max;
-        uiText.enabled = false;
+        if (uiText != null)
+        {
+            uiText.text = "Paintings Found: " + count + " / " + max;
+            uiText.enabled = false;
+        }
         IsUIEnabled = false;
 
         audioSource = GetComponent<AudioSource>();
@@ -64,11 +67,15 @@ public class PaintingProgressManager : MonoBehaviour
 
     public void EnableUI(bool enable)
     {
-        uiText.enabled = enable;
-        miniMapLabel.SetActive(enable);
+        if (uiText != null) uiText.enabled = enable;
+        if (miniMapLabel != null) miniMapLabel.SetActive(enable);
         IsUIEnabled = enable;
         ScramblerEffect effect = FindFirstObjectByType<ScramblerEffect>();
-        if (!effect.IsScrambleActive())
+        if (effect != null && !effect.IsScrambleActive())
+        {
+            if (miniMap != null) miniMap.SetActive(enable);
+        }
+        else if (effect == null && miniMap != null)
         {
             miniMap.SetActive(enable);
         }

@@ -70,27 +70,27 @@ public class GrottoBuilder : MonoBehaviour
         if (existing != null) DestroyImmediate(existing);
 
         GameObject grotto = new GameObject("GrottoRoom");
-        grotto.transform.position = new Vector3(0, 0, -25);
+        grotto.transform.position = new Vector3(-5, 0, -18);
 
         Material wallMat = AssetDatabase.LoadAssetAtPath<Material>("Assets/Materials/Grotto/CaveWall.mat");
         Material floorMat = AssetDatabase.LoadAssetAtPath<Material>("Assets/Materials/Grotto/CaveFloor.mat");
         Material ceilMat = AssetDatabase.LoadAssetAtPath<Material>("Assets/Materials/Grotto/CaveCeiling.mat");
         Material darkMat = AssetDatabase.LoadAssetAtPath<Material>("Assets/Materials/Grotto/DarkAlcove.mat");
 
-        float roomW = 16f, roomD = 20f, roomH = 6f;
-        Vector3 center = grotto.transform.position + new Vector3(0, roomH / 2f, -roomD / 2f);
+        float roomW = 14f, roomD = 14f, roomH = 5f;
 
-        CreateWall("GrottoFloor", grotto.transform, new Vector3(0, 0, -roomD / 2f), new Vector3(roomW, 0.1f, roomD), floorMat);
-        CreateWall("GrottoCeiling", grotto.transform, new Vector3(0, roomH, -roomD / 2f), new Vector3(roomW, 0.1f, roomD), ceilMat);
-        CreateWall("GrottoWallLeft", grotto.transform, new Vector3(-roomW / 2f, roomH / 2f, -roomD / 2f), new Vector3(0.3f, roomH, roomD), wallMat);
-        CreateWall("GrottoWallRight", grotto.transform, new Vector3(roomW / 2f, roomH / 2f, -roomD / 2f), new Vector3(0.3f, roomH, roomD), wallMat);
-        CreateWall("GrottoWallBack", grotto.transform, new Vector3(0, roomH / 2f, -roomD), new Vector3(roomW, roomH, 0.3f), wallMat);
-        CreateWall("GrottoWallFrontLeft", grotto.transform, new Vector3(-5f, roomH / 2f, 0), new Vector3(6f, roomH, 0.3f), wallMat);
-        CreateWall("GrottoWallFrontRight", grotto.transform, new Vector3(5f, roomH / 2f, 0), new Vector3(6f, roomH, 0.3f), wallMat);
+        CreateWall("GrottoFloor", grotto.transform, new Vector3(0, 0, 0), new Vector3(roomW, 0.1f, roomD), floorMat);
+        CreateWall("GrottoCeiling", grotto.transform, new Vector3(0, roomH, 0), new Vector3(roomW, 0.1f, roomD), ceilMat);
+        CreateWall("GrottoWallLeft", grotto.transform, new Vector3(-roomW / 2f, roomH / 2f, 0), new Vector3(0.3f, roomH, roomD), wallMat);
+        CreateWall("GrottoWallRight", grotto.transform, new Vector3(roomW / 2f, roomH / 2f, 0), new Vector3(0.3f, roomH, roomD), wallMat);
+        CreateWall("GrottoWallBack", grotto.transform, new Vector3(0, roomH / 2f, -roomD / 2f), new Vector3(roomW, roomH, 0.3f), wallMat);
+
+        CreateWall("GrottoWallFrontLeft", grotto.transform, new Vector3(-4.5f, roomH / 2f, roomD / 2f), new Vector3(5f, roomH, 0.3f), wallMat);
+        CreateWall("GrottoWallFrontRight", grotto.transform, new Vector3(4.5f, roomH / 2f, roomD / 2f), new Vector3(5f, roomH, 0.3f), wallMat);
 
         GameObject alcove = new GameObject("DarkAlcove");
         alcove.transform.parent = grotto.transform;
-        alcove.transform.localPosition = new Vector3(6f, 0, -16f);
+        alcove.transform.localPosition = new Vector3(5f, 0, -5f);
         CreateWall("AlcoveBack", alcove.transform, new Vector3(0, 1.5f, -1.5f), new Vector3(4f, 3f, 0.2f), darkMat);
         CreateWall("AlcoveLeft", alcove.transform, new Vector3(-2f, 1.5f, -0.75f), new Vector3(0.2f, 3f, 1.5f), darkMat);
         CreateWall("AlcoveRight", alcove.transform, new Vector3(2f, 1.5f, -0.75f), new Vector3(0.2f, 3f, 1.5f), darkMat);
@@ -109,24 +109,39 @@ public class GrottoBuilder : MonoBehaviour
             EditorUtility.SetDirty(ped);
         }
 
-        AddGrottoLights(grotto.transform, roomD);
+        AddGrottoLights(grotto.transform);
+
+        Material corridorWall = wallMat;
+        Material corridorFloor = floorMat;
+        Material corridorCeil = ceilMat;
+        float corrStartZ = roomD / 2f;
+        float corrEndZ = 9f + 18f;
+        float corrLen = corrEndZ - corrStartZ;
+        float corrW = 3f;
+
+        CreateWall("CorridorFloor", grotto.transform, new Vector3(0, 0, corrStartZ + corrLen / 2f), new Vector3(corrW, 0.1f, corrLen), corridorFloor);
+        CreateWall("CorridorCeiling", grotto.transform, new Vector3(0, roomH, corrStartZ + corrLen / 2f), new Vector3(corrW, 0.1f, corrLen), corridorCeil);
+        CreateWall("CorridorWallLeft", grotto.transform, new Vector3(-corrW / 2f, roomH / 2f, corrStartZ + corrLen / 2f), new Vector3(0.2f, roomH, corrLen), corridorWall);
+        CreateWall("CorridorWallRight", grotto.transform, new Vector3(corrW / 2f, roomH / 2f, corrStartZ + corrLen / 2f), new Vector3(0.2f, roomH, corrLen), corridorWall);
 
         EditorUtility.SetDirty(grotto);
-        Debug.Log("Grotto room built at Z=-25.");
+        Debug.Log("Grotto room + corridor built. Room at (-5,0,-18), corridor to Z=" + (grotto.transform.position.z + corrStartZ + corrLen));
     }
 
-    static void AddGrottoLights(Transform parent, float depth)
+    static void AddGrottoLights(Transform parent)
     {
         Color teal = new Color(0.3f, 0.8f, 0.9f);
         Color purple = new Color(0.5f, 0.2f, 0.8f);
         Color blue = new Color(0.2f, 0.4f, 1f);
 
-        CreateLight("GrottoLight_Main", parent, new Vector3(0, 5.5f, -10f), Color.white, 1.5f, 20f);
-        CreateLight("GrottoLight_Teal1", parent, new Vector3(-5, 3f, -8f), teal, 3f, 10f);
-        CreateLight("GrottoLight_Purple1", parent, new Vector3(5, 3f, -15f), purple, 3f, 10f);
-        CreateLight("GrottoLight_Blue1", parent, new Vector3(-3, 2f, -18f), blue, 2.5f, 8f);
-        CreateLight("GrottoLight_Teal2", parent, new Vector3(3, 4f, -5f), teal, 2f, 8f);
-        CreateLight("GrottoLight_Entry", parent, new Vector3(0, 4f, -1f), new Color(0.9f, 0.85f, 0.7f), 2f, 10f);
+        CreateLight("GrottoLight_Main", parent, new Vector3(0, 4.5f, 0), Color.white, 1.5f, 18f);
+        CreateLight("GrottoLight_Teal1", parent, new Vector3(-5, 3f, 2f), teal, 3f, 8f);
+        CreateLight("GrottoLight_Purple1", parent, new Vector3(5, 3f, -4f), purple, 3f, 8f);
+        CreateLight("GrottoLight_Blue1", parent, new Vector3(-3, 2f, -5f), blue, 2.5f, 8f);
+        CreateLight("GrottoLight_Teal2", parent, new Vector3(3, 4f, 4f), teal, 2f, 8f);
+        CreateLight("GrottoLight_Entry", parent, new Vector3(0, 4f, 10f), new Color(0.9f, 0.85f, 0.7f), 2f, 10f);
+        CreateLight("GrottoLight_Corr1", parent, new Vector3(0, 4f, 16f), new Color(0.4f, 0.6f, 0.9f), 2f, 8f);
+        CreateLight("GrottoLight_Corr2", parent, new Vector3(0, 4f, 22f), new Color(0.5f, 0.5f, 0.8f), 2f, 8f);
     }
 
     static void CreateLight(string name, Transform parent, Vector3 pos, Color color, float intensity, float range)

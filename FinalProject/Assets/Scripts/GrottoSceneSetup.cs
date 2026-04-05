@@ -173,10 +173,10 @@ public class GrottoSceneSetup : MonoBehaviour
         };
 
         Vector3[] positions = {
-            new Vector3(-6f, 0.5f, -4f),
-            new Vector3(5f, 0.5f, -12f),
-            new Vector3(-3f, 0.5f, -18f),
-            new Vector3(7f, 0.5f, -8f)
+            new Vector3(-5f, 0.5f, 3f),
+            new Vector3(4f, 0.5f, -3f),
+            new Vector3(-3f, 0.5f, -6f),
+            new Vector3(6f, 0.5f, 2f)
         };
 
         Color[] lightColors = {
@@ -233,7 +233,7 @@ public class GrottoSceneSetup : MonoBehaviour
 
         GameObject entrance = new GameObject("GrottoEntrance");
         entrance.transform.parent = parent;
-        entrance.transform.localPosition = new Vector3(0, 1.5f, 0.5f);
+        entrance.transform.localPosition = new Vector3(0, 1.5f, 7f);
 
         BoxCollider col = entrance.AddComponent<BoxCollider>();
         col.size = new Vector3(4f, 3f, 1f);
@@ -279,7 +279,7 @@ public class GrottoSceneSetup : MonoBehaviour
 
         GameObject canvasObj = new GameObject("GrottoCanvas");
         canvasObj.transform.parent = parent;
-        canvasObj.transform.localPosition = new Vector3(0, 3.5f, -2f);
+        canvasObj.transform.localPosition = new Vector3(0, 3.5f, -3f);
 
         Canvas canvas = canvasObj.AddComponent<Canvas>();
         canvas.renderMode = RenderMode.WorldSpace;
