@@ -10,8 +10,13 @@ public class WaterStreamHaptic : MonoBehaviour
     private Coroutine hapticCoroutine;
     private bool playerInside = false;
 
+    private void Start()
+    {
+        waterSound = GetComponent<AudioSource>();
+    }
     void OnTriggerEnter(Collider other)
     {
+        Debug.Log("Player entered " + this.name);
         if (!other.CompareTag("Player")) return;
         playerInside = true;
 

@@ -28,7 +28,6 @@ public class HapticManager : MonoBehaviour
         HapticImpulsePlayer[] players = FindObjectsByType<HapticImpulsePlayer>(FindObjectsSortMode.None);
         foreach (var p in players)
         {
-            //this definitely could bug
             if (p.gameObject.name.Contains("Left"))
                 leftHaptic = p;
             else if (p.gameObject.name.Contains("Right"))

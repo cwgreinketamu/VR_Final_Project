@@ -31,11 +31,13 @@ public class GrottoGameManager : MonoBehaviour
 
     private HapticObject.TextureType[] blindPrompts = {
         HapticObject.TextureType.Smooth,
-        HapticObject.TextureType.Rough,
-        HapticObject.TextureType.Heavy
+        HapticObject.TextureType.Heavy,
+        HapticObject.TextureType.Rough
     };
 
     private Coroutine guidanceCoroutine;
+
+    public AudioSource audioSource;
 
     void Start()
     {
@@ -43,10 +45,14 @@ public class GrottoGameManager : MonoBehaviour
         if (resultText != null) resultText.enabled = false;
         if (resultBackground != null) resultBackground.SetActive(false);
         if (instructionText != null) instructionText.text = "";
+        if (timerText != null) timerText.enabled = false;
+        audioSource = GetComponent<AudioSource>();
     }
 
     public void StartGame()
     {
+        if (currentPhase != Phase.Inactive) return;
+        timerText.enabled = true;
         timerRunning = true;
         timeRemaining = totalTime;
         wrongAnswers = 0;
@@ -93,7 +99,7 @@ public class GrottoGameManager : MonoBehaviour
         {
             case Phase.WaterStreams:
                 if (instructionText != null)
-                    instructionText.text = "Touch each water stream to feel its intensity.\nThen walk to the STRONGEST one.";
+                    instructionText.text = "Touch each water stream to feel its intensity.\nThen select the STRONGEST one.";
                 break;
             case Phase.BlindIdentification:
                 StartBlindRound();
@@ -114,11 +120,14 @@ public class GrottoGameManager : MonoBehaviour
         if (selected == correctStream)
         {
             if (hm != null) hm.SendConfirmation();
+            audioSource.Play();
+            Debug.Log("correct stream selected");
             StartPhase(Phase.BlindIdentification);
         }
         else
         {
             wrongAnswers++;
+            Debug.Log("wrong stream selected");
             if (hm != null) hm.SendWarning();
             if (instructionText != null)
                 instructionText.text = "Wrong stream! Try again.\nTouch each stream, then pick the STRONGEST.";
@@ -136,7 +145,7 @@ public class GrottoGameManager : MonoBehaviour
 
         string typeName = blindPrompts[blindRound].ToString().ToLower();
         if (instructionText != null)
-            instructionText.text = "Blind Challenge: Touch the objects.\nFind the " + typeName + " one, then stay on it.";
+            instructionText.text = "Blind Challenge: Touch the objects.\nSelect the " + typeName + " one.";
     }
 
     public void OnBlindObjectSelected(HapticObject selected)
@@ -151,14 +160,17 @@ public class GrottoGameManager : MonoBehaviour
         {
             if (hm != null) hm.SendConfirmation();
             blindRound++;
+            audioSource.Play();
+            Debug.Log("correct object selected");
             StartBlindRound();
         }
         else
         {
             wrongAnswers++;
+            Debug.Log("wrong object selected");
             if (hm != null) hm.SendWarning();
             if (instructionText != null)
-                instructionText.text = "Wrong! That was " + selected.textureType.ToString().ToLower() + ".\nTry again - find the " + blindPrompts[blindRound].ToString().ToLower() + " one.";
+                instructionText.text = "Wrong! That was " + selected.textureType.ToString().ToLower() + ".\nTry again - select the " + blindPrompts[blindRound].ToString().ToLower() + " one.";
             CheckFailure();
         }
     }
@@ -194,7 +206,7 @@ public class GrottoGameManager : MonoBehaviour
 
         if (instructionText != null)
             instructionText.text = "Crystals: " + crystalsCollected + " / " + totalCrystals;
-
+        audioSource.Play();
         if (crystalsCollected >= totalCrystals)
         {
             EndGame(true, "Grotto Complete!");
@@ -214,6 +226,7 @@ public class GrottoGameManager : MonoBehaviour
     void EndGame(bool won, string message)
     {
         timerRunning = false;
+        timerText.enabled = false;
         currentPhase = won ? Phase.Complete : Phase.Failed;
 
         HapticManager hm = HapticManager.Instance;
@@ -225,6 +238,17 @@ public class GrottoGameManager : MonoBehaviour
                 hm.SendConfirmation();
                 hm.SendImpulse(0.7f, 0.3f);
             }
+        }
+        else
+        {
+            if (hm != null) hm.SendWarning();
+        }
+        StartCoroutine(DisplayResults(won, message));
+    }
+
+    public IEnumerator DisplayResults(bool won, string message) {
+        if (won)
+        {
             if (resultText != null)
             {
                 resultText.enabled = true;
@@ -234,7 +258,6 @@ public class GrottoGameManager : MonoBehaviour
         }
         else
         {
-            if (hm != null) hm.SendWarning();
             if (resultText != null)
             {
                 resultText.enabled = true;
@@ -242,8 +265,10 @@ public class GrottoGameManager : MonoBehaviour
                 resultText.color = new Color(1f, 0.2f, 0.2f);
             }
         }
-
         if (resultBackground != null) resultBackground.SetActive(true);
         if (instructionText != null) instructionText.text = "";
+        yield return new WaitForSeconds(5);
+        if (resultBackground != null) resultBackground.SetActive(false);
+        resultText.enabled = false;
     }
 }

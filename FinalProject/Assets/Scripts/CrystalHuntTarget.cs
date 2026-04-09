@@ -26,6 +26,8 @@ public class CrystalHuntTarget : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
+        GrottoGameManager gm = FindFirstObjectByType<GrottoGameManager>();
+        if (gm.currentPhase != GrottoGameManager.Phase.CrystalHunt) return;
         if (isCollected || !other.CompareTag("Player")) return;
 
         isCollected = true;
@@ -43,7 +45,6 @@ public class CrystalHuntTarget : MonoBehaviour
         if (glowLight != null)
             glowLight.intensity *= 3f;
 
-        GrottoGameManager gm = FindFirstObjectByType<GrottoGameManager>();
         if (gm != null)
             gm.OnCrystalCollected();
 
