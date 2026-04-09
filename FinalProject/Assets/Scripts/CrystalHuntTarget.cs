@@ -15,6 +15,10 @@ public class CrystalHuntTarget : MonoBehaviour
         startPos = transform.position;
         if (glowLight == null)
             glowLight = GetComponentInChildren<Light>();
+
+        GetComponent<MeshRenderer>().enabled = false;
+        glowLight.enabled = false;
+        GetComponent<Collider>().enabled = false;
     }
 
     void Update()
@@ -24,6 +28,10 @@ public class CrystalHuntTarget : MonoBehaviour
         transform.position = new Vector3(startPos.x, newY, startPos.z);
     }
 
+    public void Activate()
+    {
+        GetComponent<Collider>().enabled = true;
+    }
     void OnTriggerEnter(Collider other)
     {
         GrottoGameManager gm = FindFirstObjectByType<GrottoGameManager>();
@@ -48,7 +56,9 @@ public class CrystalHuntTarget : MonoBehaviour
         if (gm != null)
             gm.OnCrystalCollected();
 
-        Invoke(nameof(Deactivate), 1f);
+        GetComponent<MeshRenderer>().enabled = true;
+        glowLight.enabled = true;
+
     }
 
     void Deactivate()

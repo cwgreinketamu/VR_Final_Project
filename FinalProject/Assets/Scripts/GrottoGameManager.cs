@@ -183,6 +183,8 @@ public class GrottoGameManager : MonoBehaviour
         HapticManager hm = HapticManager.Instance;
         if (hm != null && playerTransform != null)
             guidanceCoroutine = hm.StartProximityGuidance(nextCrystal.transform, playerTransform);
+
+        nextCrystal.Activate();
     }
 
     CrystalHuntTarget GetNextCrystal()

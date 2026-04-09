@@ -8,9 +8,9 @@ public class HapticObject : MonoBehaviour
     private Coroutine activeCoroutine;
     private bool isTouched = false;
 
-    void OnTriggerEnter(Collider other)
+    public void OnSelect()
     {
-        if (!other.CompareTag("Player") || isTouched) return;
+        if (isTouched) return;
         isTouched = true;
 
         HapticManager hm = HapticManager.Instance;
@@ -20,9 +20,8 @@ public class HapticObject : MonoBehaviour
         activeCoroutine = hm.StartContinuousTexture(typeStr);
     }
 
-    void OnTriggerExit(Collider other)
+    public void OnSelectExit()
     {
-        if (!other.CompareTag("Player")) return;
         isTouched = false;
 
         HapticManager hm = HapticManager.Instance;
